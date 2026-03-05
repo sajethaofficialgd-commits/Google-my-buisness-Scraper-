@@ -1,8 +1,8 @@
 import OpenAI from "openai";
 
-export const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+export function getOpenAI(): OpenAI {
+  return new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+}
 
 export const N8N_SYSTEM_PROMPT = `You are an expert n8n workflow architect. Your ONLY job is to output valid n8n workflow JSON — nothing else.
 

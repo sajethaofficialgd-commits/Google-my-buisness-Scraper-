@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { openai, N8N_SYSTEM_PROMPT } from "@/lib/openai";
+import { getOpenAI, N8N_SYSTEM_PROMPT } from "@/lib/openai";
 import { createWorkflow, workflowUrl } from "@/lib/n8n";
 
 export const dynamic = "force-dynamic";
@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Step 1: Ask GPT-4o to generate the n8n workflow JSON
-    const completion = await openai.chat.completions.create({
+    const completion = await getOpenAI().chat.completions.create({
       model: "gpt-4o",
       max_tokens: 8192,
       messages: [
