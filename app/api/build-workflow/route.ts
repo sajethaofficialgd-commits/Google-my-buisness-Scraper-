@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { openai, N8N_SYSTEM_PROMPT } from "@/lib/openai";
 import { createWorkflow, workflowUrl } from "@/lib/n8n";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: NextRequest) {
   try {
     const { prompt } = await req.json();
