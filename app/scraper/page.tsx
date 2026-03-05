@@ -8,7 +8,7 @@ const GOOGLE_DOC_URL =
 
 type Status = "idle" | "running" | "done" | "error";
 
-export default function Home() {
+export default function Scraper() {
   const [query, setQuery] = useState("digital marketing agency");
   const [location, setLocation] = useState("Krishnagiri");
   const [status, setStatus] = useState<Status>("idle");
@@ -44,22 +44,17 @@ export default function Home() {
     <div className="flex min-h-screen flex-col bg-gray-950 text-white">
       {/* Header */}
       <header className="border-b border-white/10 px-6 py-4">
-        <div className="mx-auto flex max-w-2xl items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-600 text-lg">
-              🗺️
-            </div>
-            <div>
-              <h1 className="text-sm font-semibold">GMB Review Scraper</h1>
-              <p className="text-xs text-gray-500">Powered by SerpAPI + n8n</p>
-            </div>
-          </div>
+        <div className="mx-auto flex max-w-2xl items-center gap-3">
           <Link
-            href="/builder"
-            className="rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-gray-400 hover:text-white transition-colors"
+            href="/"
+            className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-600 text-sm font-bold hover:bg-green-500 transition-colors"
           >
-            AI Workflow Builder →
+            ←
           </Link>
+          <div>
+            <h1 className="text-sm font-semibold">GMB Review Scraper</h1>
+            <p className="text-xs text-gray-500">Powered by SerpAPI + n8n</p>
+          </div>
         </div>
       </header>
 
@@ -87,7 +82,6 @@ export default function Home() {
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleScrape()}
                 placeholder="digital marketing agency"
                 disabled={status === "running"}
                 className="w-full rounded-xl border border-white/10 bg-gray-900 px-4 py-2.5 text-sm text-white placeholder-gray-600 focus:border-green-500/60 focus:outline-none disabled:opacity-50"
@@ -100,7 +94,6 @@ export default function Home() {
                 type="text"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleScrape()}
                 placeholder="Krishnagiri"
                 disabled={status === "running"}
                 className="w-full rounded-xl border border-white/10 bg-gray-900 px-4 py-2.5 text-sm text-white placeholder-gray-600 focus:border-green-500/60 focus:outline-none disabled:opacity-50"
@@ -123,40 +116,37 @@ export default function Home() {
             </button>
           </div>
 
-          {/* Success */}
+          {/* Result */}
           {status === "done" && (
             <div className="mt-4 rounded-2xl border border-green-500/30 bg-green-500/10 p-5">
-              <div className="flex items-center gap-2 text-green-400 font-semibold text-base">
-                <span>✓</span>
+              <div className="flex items-center gap-2 text-green-400 font-semibold">
+                <span className="text-lg">✓</span>
                 Reviews scraped and written to Google Doc
               </div>
               <p className="mt-1 text-sm text-gray-400">
-                Document updated with reviews for &quot;{query} in {location}&quot;.
+                The document has been updated with reviews for &quot;{query} in {location}&quot;.
               </p>
-              <div className="mt-3 flex items-center gap-3">
-                <a
-                  href={GOOGLE_DOC_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-500 transition-colors"
-                >
-                  Open Google Doc →
-                </a>
-                <button
-                  onClick={() => setStatus("idle")}
-                  className="text-sm text-gray-500 hover:text-gray-300 transition-colors"
-                >
-                  Scrape again
-                </button>
-              </div>
+              <a
+                href={GOOGLE_DOC_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-500 transition-colors"
+              >
+                Open Google Doc →
+              </a>
+              <button
+                onClick={() => setStatus("idle")}
+                className="ml-3 text-sm text-gray-500 hover:text-gray-300 transition-colors"
+              >
+                Run again
+              </button>
             </div>
           )}
 
-          {/* Error */}
           {status === "error" && (
             <div className="mt-4 rounded-2xl border border-red-500/30 bg-red-500/10 p-5">
               <div className="flex items-center gap-2 text-red-400 font-semibold">
-                <span>✕</span>
+                <span className="text-lg">✕</span>
                 Scraping failed
               </div>
               <p className="mt-1 text-sm text-gray-400">{errorMsg}</p>
@@ -169,9 +159,10 @@ export default function Home() {
             </div>
           )}
 
+          {/* Info */}
           {status === "idle" && (
             <p className="mt-4 text-center text-xs text-gray-600">
-              Results are written to your connected Google Doc · Workflow runs on n8n
+              Results are written to your connected Google Doc · Workflow runs on your n8n instance
             </p>
           )}
         </div>
